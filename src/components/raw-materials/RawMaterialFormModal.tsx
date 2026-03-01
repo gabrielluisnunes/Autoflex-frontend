@@ -45,12 +45,12 @@ export const RawMaterialFormModal = ({
       open={open}
       onClose={onClose}
       title={
-        rawMaterial ? `Edit Raw Material: ${rawMaterial.name}` : 'Create Raw Material'
+        rawMaterial ? `Editar Matéria-prima: ${rawMaterial.name}` : 'Criar Matéria-prima'
       }
     >
       <form className="form-grid" onSubmit={handleSubmit}>
         <label>
-          Code
+          Código
           <input
             value={code}
             onChange={(event) => setCode(event.target.value)}
@@ -60,7 +60,7 @@ export const RawMaterialFormModal = ({
         </label>
 
         <label>
-          Name
+          Nome
           <input
             value={name}
             onChange={(event) => setName(event.target.value)}
@@ -70,7 +70,7 @@ export const RawMaterialFormModal = ({
         </label>
 
         <label>
-          Stock Quantity
+          Quantidade em Estoque
           <input
             type="number"
             min="0"
@@ -83,10 +83,10 @@ export const RawMaterialFormModal = ({
 
         <div className="actions-row">
           <button type="button" className="button secondary" onClick={onClose}>
-            Cancel
+            Cancelar
           </button>
           <button type="submit" className="button primary" disabled={submitting}>
-            {rawMaterial ? 'Save Changes' : 'Create Raw Material'}
+            {rawMaterial ? 'Salvar Alterações' : 'Criar Matéria-prima'}
           </button>
         </div>
       </form>

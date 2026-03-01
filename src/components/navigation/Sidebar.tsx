@@ -1,9 +1,9 @@
 import { NavLink } from 'react-router-dom'
 
 const navItems = [
-  { to: '/products', label: 'Products' },
-  { to: '/raw-materials', label: 'Raw Materials' },
-  { to: '/production', label: 'Production' },
+  { to: '/products', label: 'Produtos' },
+  { to: '/raw-materials', label: 'Matérias-primas' },
+  { to: '/production', label: 'Produção' },
 ]
 
 export const Sidebar = () => {
@@ -11,7 +11,7 @@ export const Sidebar = () => {
     <aside className="sidebar">
       <div className="brand">
         <h1>Autoflex</h1>
-        <p>Production Dashboard</p>
+        <p>Painel de Produção</p>
       </div>
       <nav className="nav-list">
         {navItems.map((item) => (

@@ -51,7 +51,7 @@ export const RawMaterialsPage = () => {
   }
 
   const handleDelete = async (id: number) => {
-    const confirmed = window.confirm('Do you really want to delete this raw material?')
+    const confirmed = window.confirm('Deseja realmente excluir esta matéria-prima?')
     if (!confirmed) {
       return
     }
@@ -64,26 +64,26 @@ export const RawMaterialsPage = () => {
     <section className="page">
       <header className="page-header">
         <div>
-          <h2>Raw Materials</h2>
-          <p>Keep stock up to date and maintain raw material records.</p>
+          <h2>Matérias-primas</h2>
+          <p>Mantenha o estoque atualizado e os registros organizados.</p>
         </div>
         <button className="button primary" onClick={openCreateModal}>
-          New Raw Material
+          Nova Matéria-prima
         </button>
       </header>
 
       <ErrorBanner message={rawMaterialsState.error} />
       {rawMaterialsState.loading ? (
-        <LoadingState label="Loading raw materials..." />
+        <LoadingState label="Carregando matérias-primas..." />
       ) : (
         <div className="table-wrapper">
           <table>
             <thead>
               <tr>
-                <th>Code</th>
-                <th>Name</th>
-                <th>Stock Quantity</th>
-                <th>Actions</th>
+                <th>Código</th>
+                <th>Nome</th>
+                <th>Quantidade em Estoque</th>
+                <th>Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -97,13 +97,13 @@ export const RawMaterialsPage = () => {
                       className="button secondary"
                       onClick={() => openEditModal(rawMaterial)}
                     >
-                      Edit
+                      Editar
                     </button>
                     <button
                       className="button danger"
                       onClick={() => handleDelete(rawMaterial.id)}
                     >
-                      Delete
+                      Excluir
                     </button>
                   </td>
                 </tr>
@@ -111,7 +111,7 @@ export const RawMaterialsPage = () => {
               {rawMaterialsState.items.length === 0 && (
                 <tr>
                   <td colSpan={4} className="empty-row">
-                    No raw materials found.
+                    Nenhuma matéria-prima encontrada.
                   </td>
                 </tr>
               )}

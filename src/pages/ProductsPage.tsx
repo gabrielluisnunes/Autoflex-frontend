@@ -15,6 +15,11 @@ import { LoadingState } from '../components/ui/LoadingState'
 import { Pagination } from '../components/ui/Pagination'
 import type { Product, ProductPayload } from '../services/api/types'
 
+const currencyFormatter = new Intl.NumberFormat('pt-BR', {
+  style: 'currency',
+  currency: 'BRL',
+})
+
 export const ProductsPage = () => {
   const dispatch = useAppDispatch()
   const productsState = useAppSelector((state) => state.products)
@@ -56,7 +61,7 @@ export const ProductsPage = () => {
   }
 
   const handleDelete = async (id: number) => {
-    const confirmed = window.confirm('Do you really want to delete this product?')
+    const confirmed = window.confirm('Deseja realmente excluir este produto?')
     if (!confirmed) {
       return
     }
@@ -89,27 +94,27 @@ export const ProductsPage = () => {
     <section className="page">
       <header className="page-header">
         <div>
-          <h2>Products</h2>
-          <p>Manage products and associate raw materials in the same flow.</p>
+          <h2>Produtos</h2>
+          <p>Gerencie produtos e associe matérias-primas no mesmo fluxo.</p>
         </div>
         <button className="button primary" onClick={openCreateModal}>
-          New Product
+          Novo Produto
         </button>
       </header>
 
       <ErrorBanner message={productsState.error} />
       {productsState.loading ? (
-        <LoadingState label="Loading products..." />
+        <LoadingState label="Carregando produtos..." />
       ) : (
         <div className="table-wrapper">
           <table>
             <thead>
               <tr>
-                <th>Code</th>
-                <th>Name</th>
-                <th>Unit Price</th>
-                <th>Raw Materials</th>
-                <th>Actions</th>
+                <th>Código</th>
+                <th>Nome</th>
+                <th>Preço Unitário</th>
+                <th>Matérias-primas</th>
+                <th>Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -117,20 +122,20 @@ export const ProductsPage = () => {
                 <tr key={product.id}>
                   <td>{product.code}</td>
                   <td>{product.name}</td>
-                  <td>${product.price.toFixed(2)}</td>
+                  <td>{currencyFormatter.format(product.price)}</td>
                   <td>{product.rawMaterials.length}</td>
                   <td className="table-actions">
                     <button
                       className="button secondary"
                       onClick={() => openEditModal(product)}
                     >
-                      Edit
+                      Editar
                     </button>
                     <button
                       className="button danger"
                       onClick={() => handleDelete(product.id)}
                     >
-                      Delete
+                      Excluir
                     </button>
                   </td>
                 </tr>
@@ -138,7 +143,7 @@ export const ProductsPage = () => {
               {productsState.items.length === 0 && (
                 <tr>
                   <td colSpan={5} className="empty-row">
-                    No products found.
+                    Nenhum produto encontrado.
                   </td>
                 </tr>
               )}

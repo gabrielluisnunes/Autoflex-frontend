@@ -17,6 +17,32 @@ interface ProductFormModalProps {
   onRemoveRawMaterial: (productId: number, rawMaterialId: number) => Promise<void>
 }
 
+const formatCurrencyInput = (value: string) => {
+  const digits = value.replace(/\D/g, '')
+
+  if (!digits) {
+    return ''
+  }
+
+  const numericValue = Number(digits) / 100
+
+  return numericValue.toLocaleString('pt-BR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })
+}
+
+const parseCurrencyInput = (value: string) => {
+  if (!value) {
+    return 0
+  }
+
+  const normalized = value.replace(/\./g, '').replace(',', '.')
+  const parsedValue = Number(normalized)
+
+  return Number.isNaN(parsedValue) ? 0 : parsedValue
+}
+
 export const ProductFormModal = ({
   open,
   product,
@@ -38,7 +64,14 @@ export const ProductFormModal = ({
   useEffect(() => {
     setCode(product?.code || '')
     setName(product?.name || '')
-    setPrice(product?.price ? String(product.price) : '')
+    setPrice(
+      product?.price
+        ? product.price.toLocaleString('pt-BR', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
+        : '',
+    )
     setAssociationRawMaterialId('')
     setRequiredQuantity('')
   }, [product, open])
@@ -61,7 +94,7 @@ export const ProductFormModal = ({
       {
         code: code.trim(),
         name: name.trim(),
-        price: Number(price),
+        price: parseCurrencyInput(price),
       },
       product?.id,
     )
@@ -82,11 +115,11 @@ export const ProductFormModal = ({
     <Modal
       open={open}
       onClose={onClose}
-      title={product ? `Edit Product: ${product.name}` : 'Create Product'}
+      title={product ? `Editar Produto: ${product.name}` : 'Criar Produto'}
     >
       <form className="form-grid" onSubmit={handleSubmit}>
         <label>
-          Code
+          Código
           <input
             value={code}
             onChange={(event) => setCode(event.target.value)}
@@ -95,7 +128,7 @@ export const ProductFormModal = ({
           />
         </label>
         <label>
-          Name
+          Nome
           <input
             value={name}
             onChange={(event) => setName(event.target.value)}
@@ -104,37 +137,39 @@ export const ProductFormModal = ({
           />
         </label>
         <label>
-          Unit Price
+          Preço Unitário (R$)
           <input
-            type="number"
-            min="0.01"
-            step="0.01"
+            type="text"
+            inputMode="decimal"
             value={price}
-            onChange={(event) => setPrice(event.target.value)}
+            onChange={(event) => setPrice(formatCurrencyInput(event.target.value))}
+            placeholder="0,00"
             required
           />
         </label>
 
         <div className="actions-row">
           <button type="button" className="button secondary" onClick={onClose}>
-            Cancel
+            Cancelar
           </button>
           <button type="submit" className="button primary" disabled={submitting}>
-            {product ? 'Save Changes' : 'Create Product'}
+            {product ? 'Salvar Alterações' : 'Criar Produto'}
           </button>
         </div>
       </form>
 
       <section className="association-section">
-        <h4>Associated Raw Materials</h4>
+        <h4>Matérias-primas Associadas</h4>
         {!product && (
-          <p className="caption">Save the product first to manage its raw materials.</p>
+          <p className="caption">
+            Salve o produto primeiro para gerenciar as matérias-primas.
+          </p>
         )}
 
         {product && (
           <>
             {product.rawMaterials.length === 0 ? (
-              <p className="caption">No associated raw materials yet.</p>
+              <p className="caption">Nenhuma matéria-prima associada ainda.</p>
             ) : (
               <div className="chips-list">
                 {product.rawMaterials.map((item) => (
@@ -148,7 +183,7 @@ export const ProductFormModal = ({
                       className="link-danger"
                       onClick={() => onRemoveRawMaterial(product.id, item.rawMaterialId)}
                     >
-                      Remove
+                      Remover
                     </button>
                   </div>
                 ))}
@@ -165,7 +200,7 @@ export const ProductFormModal = ({
                   )
                 }
               >
-                <option value="">Select raw material</option>
+                <option value="">Selecione a matéria-prima</option>
                 {availableRawMaterials.map((rawMaterial) => (
                   <option key={rawMaterial.id} value={rawMaterial.id}>
                     {rawMaterial.code} - {rawMaterial.name}
@@ -179,7 +214,7 @@ export const ProductFormModal = ({
                 step="0.0001"
                 value={requiredQuantity}
                 onChange={(event) => setRequiredQuantity(event.target.value)}
-                placeholder="Required quantity"
+                placeholder="Quantidade necessária"
                 required
               />
 
@@ -188,7 +223,7 @@ export const ProductFormModal = ({
                 className="button secondary"
                 disabled={availableRawMaterials.length === 0}
               >
-                Add Material
+                Adicionar Matéria-prima
               </button>
             </form>
           </>

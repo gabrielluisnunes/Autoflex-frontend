@@ -4,6 +4,11 @@ import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks'
 import { ErrorBanner } from '../components/ui/ErrorBanner'
 import { LoadingState } from '../components/ui/LoadingState'
 
+const currencyFormatter = new Intl.NumberFormat('pt-BR', {
+  style: 'currency',
+  currency: 'BRL',
+})
+
 export const ProductionPage = () => {
   const dispatch = useAppDispatch()
   const productionState = useAppSelector((state) => state.production)
@@ -16,35 +21,35 @@ export const ProductionPage = () => {
     <section className="page">
       <header className="page-header">
         <div>
-          <h2>Production Suggestions</h2>
-          <p>Products are sorted by highest total production value.</p>
+          <h2>Sugestões de Produção</h2>
+          <p>Produtos ordenados pelo maior valor total de produção.</p>
         </div>
         <button
           className="button secondary"
           onClick={() => void dispatch(fetchProductionSuggestions())}
         >
-          Refresh
+          Atualizar
         </button>
       </header>
 
       <ErrorBanner message={productionState.error} />
       {productionState.loading ? (
-        <LoadingState label="Calculating production suggestions..." />
+        <LoadingState label="Calculando sugestões de produção..." />
       ) : (
         <>
           <div className="summary-card">
-            <h3>Total Production Value</h3>
-            <p>${productionState.totalProductionValue.toFixed(2)}</p>
+            <h3>Valor Total da Produção</h3>
+            <p>{currencyFormatter.format(productionState.totalProductionValue)}</p>
           </div>
 
           <div className="table-wrapper">
             <table>
               <thead>
                 <tr>
-                  <th>Product Name</th>
-                  <th>Possible Quantity</th>
-                  <th>Unit Value</th>
-                  <th>Total Value</th>
+                  <th>Nome do Produto</th>
+                  <th>Quantidade Possível</th>
+                  <th>Valor Unitário</th>
+                  <th>Valor Total</th>
                 </tr>
               </thead>
               <tbody>
@@ -55,14 +60,14 @@ export const ProductionPage = () => {
                   >
                     <td>{suggestion.productName}</td>
                     <td>{suggestion.possibleQuantity}</td>
-                    <td>${suggestion.unitPrice.toFixed(2)}</td>
-                    <td>${suggestion.totalValue.toFixed(2)}</td>
+                    <td>{currencyFormatter.format(suggestion.unitPrice)}</td>
+                    <td>{currencyFormatter.format(suggestion.totalValue)}</td>
                   </tr>
                 ))}
                 {productionState.suggestions.length === 0 && (
                   <tr>
                     <td colSpan={4} className="empty-row">
-                      No production suggestions available.
+                      Nenhuma sugestão de produção disponível.
                     </td>
                   </tr>
                 )}

@@ -21,7 +21,7 @@ export const Modal = ({ open, title, onClose, children }: ModalProps) => {
             className="icon-button"
             onClick={onClose}
             type="button"
-            aria-label="Close"
+            aria-label="Fechar"
           >
             ✕
           </button>
