@@ -5,6 +5,7 @@ import { ProductsPage } from '../pages/ProductsPage'
 import { RawMaterialsPage } from '../pages/RawMaterialsPage'
 import { ProductionPage } from '../pages/ProductionPage'
 import { LoginPage } from '../pages/LoginPage'
+import { ProductionDashboardPage } from '../pages/ProductionDashboardPage'
 
 const getDefaultPath = (role: string | null) => {
   if (role === 'USER') {
@@ -55,6 +56,7 @@ const App = () => {
           </Route>
 
           <Route path="production" element={<ProductionPage />} />
+          <Route path="dashboard" element={<ProductionDashboardPage />} />
         </Route>
       </Route>
 

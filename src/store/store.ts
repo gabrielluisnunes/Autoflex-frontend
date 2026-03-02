@@ -3,6 +3,7 @@ import productsReducer from '../features/products/productsSlice'
 import rawMaterialsReducer from '../features/raw-materials/rawMaterialsSlice'
 import productionReducer from '../features/production/productionSlice'
 import authReducer from '../features/auth/authSlice'
+import productionDashboardReducer from '../features/production-dashboard/productionDashboardSlice'
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     products: productsReducer,
     rawMaterials: rawMaterialsReducer,
     production: productionReducer,
+    productionDashboard: productionDashboardReducer,
   },
 })
 
