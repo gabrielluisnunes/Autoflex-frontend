@@ -18,6 +18,7 @@
 
 - [x] Product modal shows associated raw materials
 - [x] Add raw material association from product modal
+- [x] Edit associated raw material required quantity from product modal
 - [x] Remove raw material association from product modal
 - [x] No separate association page required
 
