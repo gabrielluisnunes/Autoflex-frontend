@@ -6,6 +6,7 @@ import type { UserRole } from '../../services/api/types'
 const navItems = [
   { to: '/products', label: 'Produtos', roles: ['ADMIN'] as UserRole[] },
   { to: '/raw-materials', label: 'Matérias-primas', roles: ['ADMIN'] as UserRole[] },
+  { to: '/dashboard', label: 'Dashboard', roles: ['ADMIN', 'USER'] as UserRole[] },
   { to: '/production', label: 'Produção', roles: ['ADMIN', 'USER'] as UserRole[] },
 ]
 
