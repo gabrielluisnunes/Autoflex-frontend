@@ -37,6 +37,9 @@ npm run format
 
 ## Pages
 
+- `/login`:
+  - autenticação JWT
+  - redirecionamento por perfil
 - `/products`:
   - product CRUD
   - raw material association in product modal
@@ -47,6 +50,18 @@ npm run format
   - production suggestion table
   - highest total value first
   - overall total value summary
+
+## Authentication
+
+- Token JWT persistido em `localStorage`
+- `Authorization: Bearer <token>` enviado automaticamente via Axios interceptor
+- `ADMIN`: acesso a produtos, matérias-primas e produção
+- `USER`: acesso apenas à produção
+
+Credenciais padrão (backend seed):
+
+- `admin` / `admin123`
+- `user` / `user123`
 
 ## Architecture
 
