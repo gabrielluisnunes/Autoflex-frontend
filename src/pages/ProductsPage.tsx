@@ -90,6 +90,22 @@ export const ProductsPage = () => {
     await dispatch(fetchProducts({ page, size: 10 }))
   }
 
+  const handleUpdateRawMaterial = async (
+    productId: number,
+    rawMaterialId: number,
+    requiredQuantity: number,
+  ) => {
+    await dispatch(removeProductRawMaterial({ productId, rawMaterialId }))
+    await dispatch(
+      addProductRawMaterial({
+        productId,
+        payload: { rawMaterialId, requiredQuantity },
+      }),
+    )
+
+    await dispatch(fetchProducts({ page, size: 10 }))
+  }
+
   return (
     <section className="page">
       <header className="page-header">
@@ -167,6 +183,7 @@ export const ProductsPage = () => {
         onClose={closeModal}
         onSubmit={handleSubmit}
         onAddRawMaterial={handleAddRawMaterial}
+        onUpdateRawMaterial={handleUpdateRawMaterial}
         onRemoveRawMaterial={handleRemoveRawMaterial}
       />
     </section>

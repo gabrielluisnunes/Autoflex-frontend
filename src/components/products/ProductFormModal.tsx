@@ -14,6 +14,11 @@ interface ProductFormModalProps {
     rawMaterialId: number,
     requiredQuantity: number,
   ) => Promise<void>
+  onUpdateRawMaterial: (
+    productId: number,
+    rawMaterialId: number,
+    requiredQuantity: number,
+  ) => Promise<void>
   onRemoveRawMaterial: (productId: number, rawMaterialId: number) => Promise<void>
 }
 
@@ -51,6 +56,7 @@ export const ProductFormModal = ({
   onClose,
   onSubmit,
   onAddRawMaterial,
+  onUpdateRawMaterial,
   onRemoveRawMaterial,
 }: ProductFormModalProps) => {
   const [code, setCode] = useState('')
@@ -60,6 +66,7 @@ export const ProductFormModal = ({
     '',
   )
   const [requiredQuantity, setRequiredQuantity] = useState('')
+  const [isEditingAssociation, setIsEditingAssociation] = useState(false)
 
   useEffect(() => {
     setCode(product?.code || '')
@@ -74,9 +81,10 @@ export const ProductFormModal = ({
     )
     setAssociationRawMaterialId('')
     setRequiredQuantity('')
+    setIsEditingAssociation(false)
   }, [product, open])
 
-  const availableRawMaterials = useMemo(() => {
+  const selectableRawMaterials = useMemo(() => {
     if (!product) {
       return rawMaterials
     }
@@ -84,8 +92,11 @@ export const ProductFormModal = ({
     const alreadyAssociatedIds = new Set(
       product.rawMaterials.map((item) => item.rawMaterialId),
     )
-    return rawMaterials.filter((item) => !alreadyAssociatedIds.has(item.id))
-  }, [product, rawMaterials])
+    return rawMaterials.filter(
+      (item) =>
+        !alreadyAssociatedIds.has(item.id) || item.id === associationRawMaterialId,
+    )
+  }, [associationRawMaterialId, product, rawMaterials])
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -106,9 +117,35 @@ export const ProductFormModal = ({
       return
     }
 
-    await onAddRawMaterial(product.id, associationRawMaterialId, Number(requiredQuantity))
+    if (isEditingAssociation) {
+      await onUpdateRawMaterial(
+        product.id,
+        associationRawMaterialId,
+        Number(requiredQuantity),
+      )
+    } else {
+      await onAddRawMaterial(
+        product.id,
+        associationRawMaterialId,
+        Number(requiredQuantity),
+      )
+    }
+
+    setIsEditingAssociation(false)
     setAssociationRawMaterialId('')
     setRequiredQuantity('')
+  }
+
+  const startEditAssociation = (rawMaterialId: number, quantity: number) => {
+    setAssociationRawMaterialId(rawMaterialId)
+    setRequiredQuantity(String(quantity))
+    setIsEditingAssociation(true)
+  }
+
+  const cancelEditAssociation = () => {
+    setAssociationRawMaterialId('')
+    setRequiredQuantity('')
+    setIsEditingAssociation(false)
   }
 
   return (
@@ -181,6 +218,15 @@ export const ProductFormModal = ({
                     <button
                       type="button"
                       className="link-danger"
+                      onClick={() =>
+                        startEditAssociation(item.rawMaterialId, item.requiredQuantity)
+                      }
+                    >
+                      Editar
+                    </button>
+                    <button
+                      type="button"
+                      className="link-danger"
                       onClick={() => onRemoveRawMaterial(product.id, item.rawMaterialId)}
                     >
                       Remover
@@ -201,7 +247,7 @@ export const ProductFormModal = ({
                 }
               >
                 <option value="">Selecione a matéria-prima</option>
-                {availableRawMaterials.map((rawMaterial) => (
+                {selectableRawMaterials.map((rawMaterial) => (
                   <option key={rawMaterial.id} value={rawMaterial.id}>
                     {rawMaterial.code} - {rawMaterial.name}
                   </option>
@@ -221,10 +267,21 @@ export const ProductFormModal = ({
               <button
                 type="submit"
                 className="button secondary"
-                disabled={availableRawMaterials.length === 0}
+                disabled={selectableRawMaterials.length === 0}
               >
-                Adicionar Matéria-prima
+                {isEditingAssociation
+                  ? 'Atualizar Quantidade'
+                  : 'Adicionar Matéria-prima'}
               </button>
+              {isEditingAssociation && (
+                <button
+                  type="button"
+                  className="button secondary"
+                  onClick={cancelEditAssociation}
+                >
+                  Cancelar Edição
+                </button>
+              )}
             </form>
           </>
         )}
