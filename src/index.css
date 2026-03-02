@@ -17,10 +17,12 @@
 body {
   margin: 0;
   background: #f3f4f6;
+  overflow-x: hidden;
 }
 
 #root {
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 h1,
@@ -33,6 +35,7 @@ p {
 
 .dashboard-layout {
   min-height: 100vh;
+  min-height: 100dvh;
   display: grid;
   grid-template-columns: 260px 1fr;
 }
@@ -69,6 +72,7 @@ p {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-width: 0;
 }
 
 .nav-link {
@@ -77,6 +81,7 @@ p {
   padding: 10px 12px;
   border-radius: 8px;
   transition: background 0.2s;
+  min-width: 0;
 }
 
 .nav-link:hover {
@@ -90,6 +95,7 @@ p {
 
 .dashboard-content {
   padding: 28px;
+  min-width: 0;
 }
 
 .page {
@@ -117,6 +123,8 @@ p {
   background: #ffffff;
   border-radius: 12px;
   overflow-x: auto;
+  max-width: 100%;
+  overscroll-behavior-x: contain;
   box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
 }
 
@@ -148,11 +156,16 @@ td {
 }
 
 .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 0;
   border-radius: 8px;
   padding: 10px 14px;
   font-weight: 600;
   cursor: pointer;
+  max-width: 100%;
+  text-align: center;
 }
 
 .button:disabled {
@@ -250,6 +263,7 @@ td {
 .form-grid {
   display: grid;
   gap: 12px;
+  grid-template-columns: 1fr;
 }
 
 .form-grid label {
@@ -334,6 +348,7 @@ select {
 
 .login-page {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -361,11 +376,18 @@ select {
 
   .sidebar {
     padding: 14px;
+    gap: 16px;
   }
 
   .nav-list {
     flex-direction: row;
     flex-wrap: wrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  .nav-link {
+    flex-shrink: 0;
   }
 }
 
@@ -383,6 +405,15 @@ select {
     grid-template-columns: 1fr;
   }
 
+  .actions-row {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .actions-row .button {
+    width: 100%;
+  }
+
   th,
   td {
     padding: 10px 12px;
@@ -390,5 +421,15 @@ select {
 
   .dashboard-kpi-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) {
+  .form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .form-grid .actions-row {
+    grid-column: 1 / -1;
   }
 }
