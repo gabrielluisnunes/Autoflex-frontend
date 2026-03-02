@@ -19,6 +19,10 @@ body {
   background: #f3f4f6;
 }
 
+#root {
+  min-height: 100vh;
+}
+
 h1,
 h2,
 h3,
@@ -40,6 +44,16 @@ p {
   display: flex;
   flex-direction: column;
   gap: 28px;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  display: grid;
+  gap: 10px;
+}
+
+.sidebar-footer .button {
+  width: 100%;
 }
 
 .brand h1 {
@@ -310,6 +324,24 @@ select {
   font-size: 2rem;
   margin-top: 6px;
   font-weight: 700;
+}
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.login-card {
+  width: min(420px, 100%);
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+  padding: 24px;
+  display: grid;
+  gap: 18px;
 }
 
 .highlight-row {
