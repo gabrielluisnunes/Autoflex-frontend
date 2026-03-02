@@ -326,6 +326,12 @@ select {
   font-weight: 700;
 }
 
+.dashboard-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
 .login-page {
   min-height: 100vh;
   display: flex;
@@ -380,5 +386,9 @@ select {
   th,
   td {
     padding: 10px 12px;
+  }
+
+  .dashboard-kpi-grid {
+    grid-template-columns: 1fr;
   }
 }
