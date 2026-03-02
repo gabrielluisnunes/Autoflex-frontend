@@ -61,3 +61,18 @@ export interface ProductionSuggestionSummary {
   suggestions: ProductionSuggestion[]
   totalProductionValue: number
 }
+
+export type UserRole = 'ADMIN' | 'USER'
+
+export interface LoginRequest {
+  username: string
+  password: string
+}
+
+export interface LoginResponse {
+  token: string
+  tokenType: string
+  expiresIn: number
+  username: string
+  role: UserRole
+}
