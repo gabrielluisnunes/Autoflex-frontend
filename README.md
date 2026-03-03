@@ -35,6 +35,27 @@ npm run build
 npm run format
 ```
 
+## Validação Rápida (5 minutos)
+
+1. Suba o backend em `http://localhost:8081`.
+2. Rode o frontend com `npm run dev`.
+3. Acesse a aplicação e valide os fluxos principais:
+
+- Login com `admin / admin123`.
+- Dashboard (`/dashboard`) com KPIs e tabela ordenada por valor total.
+- Produção (`/production`) e atualização via botão "Atualizar".
+
+4. Teste permissões:
+
+- `ADMIN`: Produtos, Matérias-primas, Dashboard e Produção.
+- `USER`: Dashboard e Produção.
+
+Smoke test de API (opcional, pela raiz do workspace):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\backend\scripts\smoke-test.ps1
+```
+
 ## Pages
 
 - `/login`:
