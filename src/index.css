@@ -365,6 +365,14 @@ select {
   gap: 18px;
 }
 
+.login-card .form-grid {
+  grid-template-columns: 1fr;
+}
+
+.login-card .form-grid > .button {
+  width: 100%;
+}
+
 .highlight-row {
   background: #ecfeff;
 }
@@ -414,6 +422,11 @@ select {
     width: 100%;
   }
 
+  .chip-item {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
   th,
   td {
     padding: 10px 12px;
@@ -425,11 +438,11 @@ select {
 }
 
 @media (min-width: 768px) {
-  .form-grid {
+  .modal-body .form-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .form-grid .actions-row {
+  .modal-body .form-grid .actions-row {
     grid-column: 1 / -1;
   }
 }
